@@ -6,33 +6,36 @@ import LoaderPage from "./views/LoaderPage";
 import { Suspense } from "react";
 import Cart from "./components/Cart";
 import Checkout from "./views/Checkout";
+import { AppProvider } from "./AppProvider";
 
 const Home = lazy(() => import("./views/Home"));
 
 const App = () => {
   return (
     <>
-      <Router>
-        <Switch>
-          <Route path="/" exact>
-            <Suspense fallback={<LoaderPage />}>
-              <Home />
-            </Suspense>
-          </Route>
+      <AppProvider>
+        <Router>
+          <Switch>
+            <Route path="/" exact>
+              <Suspense fallback={<LoaderPage />}>
+                <Home />
+              </Suspense>
+            </Route>
 
-          <Route path="/shop-cart" exact>
-            <Suspense fallback={<LoaderPage />}>
-              <Cart />
-            </Suspense>
-          </Route>
+            <Route path="/shop-cart" exact>
+              <Suspense fallback={<LoaderPage />}>
+                <Cart />
+              </Suspense>
+            </Route>
 
-          <Route path="/checkout" exact>
-            <Suspense fallback={<LoaderPage />}>
-              <Checkout />
-            </Suspense>
-          </Route>
-        </Switch>
-      </Router>
+            <Route path="/checkout" exact>
+              <Suspense fallback={<LoaderPage />}>
+                <Checkout />
+              </Suspense>
+            </Route>
+          </Switch>
+        </Router>
+      </AppProvider>
     </>
   );
 };
