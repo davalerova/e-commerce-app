@@ -5,6 +5,7 @@ import { lazy } from "react";
 import LoaderPage from "./views/LoaderPage";
 import { Suspense } from "react";
 import Cart from "./components/Cart";
+import Checkout from "./views/Checkout";
 
 const Home = lazy(() => import("./views/Home"));
 
@@ -22,6 +23,12 @@ const App = () => {
           <Route path="/shop-cart" exact>
             <Suspense fallback={<LoaderPage />}>
               <Cart />
+            </Suspense>
+          </Route>
+
+          <Route path="/checkout" exact>
+            <Suspense fallback={<LoaderPage />}>
+              <Checkout />
             </Suspense>
           </Route>
         </Switch>

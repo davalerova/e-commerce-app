@@ -1,5 +1,6 @@
 import React from "react";
 import Header from "./Header";
+import { Link } from "react-router-dom";
 
 const Cart = () => {
   return (
@@ -627,36 +628,38 @@ const Cart = () => {
               </div>
             </div>
             <div className="flex flex-col mt-4 justify-between sm:flex-row">
-              <button
+              <Link
                 className="
-                w-full
-                sm:w-5/12
-                md:w-1/3
-                py-2
-                text-center text-white text-2xl
-                bg-dark_gray
-                rounded
-                hover:bg-second
-                mb-2
-            "
+                    w-full
+                    sm:w-5/12
+                    md:w-1/3
+                    py-2
+                    text-center text-white text-2xl
+                    bg-dark_gray
+                    rounded
+                    hover:bg-second
+                    mb-2
+                  "
+                to="/"
               >
-                Continue Shopping
-              </button>
-              <button
+                <button>Continue Shopping</button>
+              </Link>
+              <Link
                 className="
-                w-full
-                sm:w-5/12
-                md:w-1/3
-                py-2
-                text-center text-white text-2xl
-                bg-purple
-                rounded
-                hover:bg-main
-                mb-2
-            "
+                    w-full
+                    sm:w-5/12
+                    md:w-1/3
+                    py-2
+                    text-center text-white text-2xl
+                    bg-purple
+                    rounded
+                    hover:bg-main
+                    mb-2
+                  "
+                to="/checkout"
               >
-                Proceed to Checkout
-              </button>
+                <button>Proceed to Checkout</button>
+              </Link>
             </div>
           </div>
         </div>
