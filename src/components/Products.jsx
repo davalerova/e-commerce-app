@@ -33,9 +33,11 @@ function Products() {
           <h1 className="font-black text-xl text-second	mt-2">
             $ {product.price}
           </h1>
-          <Link to="/shop-cart">
+          <Link to={product.stock > 0 ? "/shop-cart" : "/"}>
             <button
-              onClick={() => handleAddProductToCart(product.id)}
+              onClick={() =>
+                product.stock > 0 && handleAddProductToCart(product.id)
+              }
               className={
                 product.stock > 0
                   ? "bg-main rounded font-bold text-white"
