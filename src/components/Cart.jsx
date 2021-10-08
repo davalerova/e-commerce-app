@@ -5,7 +5,6 @@ import { useAppContext } from "../AppProvider";
 
 const Cart = () => {
   const { cart } = useAppContext();
-  const { qty } = useAppContext();
   const { dispatch } = useAppContext();
   const handleAddUnitToCart = (id) => {
     dispatch({
