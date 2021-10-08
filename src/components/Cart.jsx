@@ -1,11 +1,27 @@
 import React from "react";
 import Header from "./Header";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { useAppContext } from "../AppProvider";
 
 const Cart = () => {
   const { cart } = useAppContext();
-  console.log(cart);
+  const { qty } = useAppContext();
+  const { dispatch } = useAppContext();
+  const handleAddUnitToCart = (id) => {
+    dispatch({
+      type: "ADD_AN_UNIT_TO_CART",
+      payload: id,
+    });
+    <Redirect to="/shoping_cart" />;
+  };
+
+  const handleSubstractUnitToCart = (id) => {
+    dispatch({
+      type: "SUBTRACT_AN_UNIT_TO_CART",
+      payload: id,
+    });
+    <Redirect to="/shoping_cart" />;
+  };
 
   return (
     <div>
@@ -40,7 +56,7 @@ const Cart = () => {
               </thead>
               <tbody>
                 {cart.map(
-                  (product) =>
+                  (product, i) =>
                     product?.img && (
                       <tr className="hover:bg-gray" key={product.id}>
                         <td>
@@ -59,7 +75,12 @@ const Cart = () => {
                         </td>
                         <td className="p-4 px-2 text-center whitespace-nowrap">
                           <div>
-                            <button className="text-red">
+                            <button
+                              className="text-red"
+                              onClick={() =>
+                                handleSubstractUnitToCart(product.id)
+                              }
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="inline-flex w-6 h-6 text-red-600"
@@ -75,13 +96,13 @@ const Cart = () => {
                                 />
                               </svg>
                             </button>
-                            <input
-                              type="text"
-                              name="qty"
-                              defaultValue={product.qty}
-                              className="w-12 text-center bg-gray-100 outline-none"
-                            />
-                            <button className="text-green">
+                            <label className="w-4 text-center mx-2">
+                              {product.qty}
+                            </label>
+                            <button
+                              className="text-green"
+                              onClick={() => handleAddUnitToCart(product.id)}
+                            >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
                                 className="inline-flex w-6 h-6 text-green-600"

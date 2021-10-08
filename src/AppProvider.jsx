@@ -1,11 +1,10 @@
-import React, { useContext, useReducer } from "react";
+import React, { useContext, useReducer, useState } from "react";
 
 const AppContext = React.createContext();
 
 const useAppContext = () => {
   return useContext(AppContext);
 };
-
 const initialState = {
   products: [
     {
@@ -65,30 +64,13 @@ const initialState = {
       stock: 52,
     },
   ],
-  cart: [
-    {
-      id: 1,
-      desc: "Oculus VR",
-      detail: "Reference 1204",
-      price: 149,
-      img: "http://pixelwibes.com/template/ebazar/html/dist/assets/images/product/product-1.jpg",
-      qty: 1,
-    },
-    {
-      id: 2,
-      desc: "Wall Clock",
-      detail: "Reference 1004",
-      price: 399,
-      img: "http://pixelwibes.com/template/ebazar/html/dist/assets/images/product/product-2.jpg",
-      qty: 1,
-    },
-  ],
+  cart: [],
   wish: [],
   total: 520,
 };
 
 const reducer = (state, action) => {
-  const handleAlterCart = () => {
+  const handleAlterCart = ({ add }) => {
     const { desc, detail, id, img, price, qty } = state.cart.filter(
       (product) => product.id === action.payload
     )[0];
@@ -100,14 +82,24 @@ const reducer = (state, action) => {
     );
     const products = [...state.cart];
 
-    products.splice(index, 1, {
-      desc,
-      detail,
-      id,
-      img,
-      price,
-      qty: qty + 1,
-    });
+    add
+      ? products.splice(index, 1, {
+          desc,
+          detail,
+          id,
+          img,
+          price,
+          qty: qty + 1,
+        })
+      : products.splice(index, 1, {
+          desc,
+          detail,
+          id,
+          img,
+          price,
+          qty: qty - 1,
+        });
+
     console.log(products);
     return products;
   };
@@ -124,7 +116,7 @@ const reducer = (state, action) => {
       if (state.cart.some((product) => product.id === action.payload)) {
         return {
           ...state,
-          cart: handleAlterCart(),
+          cart: handleAlterCart({ add: true }),
         };
       } else {
         return {
@@ -132,6 +124,24 @@ const reducer = (state, action) => {
           cart: [...state.cart, handleAddCart()],
         };
       }
+
+    case "ADD_AN_UNIT_TO_CART":
+      return {
+        ...state,
+        cart: handleAlterCart({ add: true }),
+      };
+
+    case "SUBTRACT_AN_UNIT_TO_CART":
+      return {
+        ...state,
+        cart: handleAlterCart({ add: false }),
+      };
+
+    case "ADD_AN_UNIT_TO_STOCK":
+      return state;
+
+    case "SUBTRACT_AN_UNIT_TO_STOCK":
+      return state;
 
     default:
       break;
