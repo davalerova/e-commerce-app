@@ -14,7 +14,7 @@ const Checkout = () => {
   return (
     <div>
       <Header />
-      <div className="pt-10 mx-10 pb-2 text-2xl font-bold border-b-2 border-gray">
+      <div className="pt-0 sm:pt-10 lg:mx-10 pb-2 text-2xl font-bold border-b-2 border-gray">
         Checkout Details
       </div>
       <div className="flex justify-between m-10 flex-wrap lg:flex-nowrap">
