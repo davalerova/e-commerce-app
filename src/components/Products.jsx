@@ -17,7 +17,7 @@ function Products() {
   };
   return (
     <div className="flex py-10 justify-between flex-wrap m-auto w-full m-0 p-0 sm:container p-0  ">
-      {products.map((product, i) => (
+      {products?.map((product, i) => (
         <div
           key={product.id}
           className="flex flex-col w-full m-0 p-0 sm:w-1/2  p-5 md:w-1/3 lg:w-1/4"

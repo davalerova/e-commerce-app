@@ -1,7 +1,16 @@
 import React from "react";
+import { useAppContext } from "../AppProvider";
 import Header from "../components/Header";
 
 const Checkout = () => {
+  const {
+    subTotal,
+    SHIPPING_COST,
+    DISCOUNT,
+    SALES_TAXES_PERCENT,
+    salesTaxesValue,
+    total,
+  } = useAppContext();
   return (
     <div>
       <Header />
@@ -111,21 +120,39 @@ const Checkout = () => {
             <div className="py-4 rounded-lg ">
               <div className="flex justify-between px-4 my-8">
                 <span className="font-bold">Subotal Price:</span>
-                <span className="font-bold">$35.25</span>
+                <span className="font-bold">${subTotal}</span>
               </div>
               <div className="flex justify-between px-4 my-8">
                 <span className="font-bold text-orange">
                   Shipping Cost (+):
                 </span>
-                <span className="font-bold text-orange">$12</span>
+                <span
+                  className={
+                    subTotal > 0
+                      ? "font-bold text-orange"
+                      : "font-bold text-orange line-through"
+                  }
+                >
+                  ${SHIPPING_COST}
+                </span>
               </div>
               <div className="flex justify-between px-4 my-8">
                 <span className="font-bold text-olive">Discount (-):</span>
-                <span className="font-bold text-olive">- $5.00</span>
+                <span
+                  className={
+                    subTotal > 0
+                      ? "font-bold text-olive"
+                      : "font-bold text-olive line-through"
+                  }
+                >
+                  - ${DISCOUNT}
+                </span>
               </div>
               <div className="flex justify-between px-4 my-8">
-                <span className="font-bold">Sales Tax (18%):</span>
-                <span className="font-bold">$2.25</span>
+                <span className="font-bold">
+                  Sales Tax ({SALES_TAXES_PERCENT}%):
+                </span>
+                <span className="font-bold">${salesTaxesValue}</span>
               </div>
               <div
                 className="
@@ -141,7 +168,9 @@ const Checkout = () => {
               "
               >
                 <span className="text-xl font-bold">Total Payable:</span>
-                <span className="text-2xl font-bold ">$37.50</span>
+                <span className="text-2xl font-bold ">
+                  ${subTotal > 0 ? total : 0}
+                </span>
               </div>
             </div>
           </div>

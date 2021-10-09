@@ -4,7 +4,16 @@ import { Link, Redirect } from "react-router-dom";
 import { useAppContext } from "../AppProvider";
 
 const Cart = () => {
-  const { cart } = useAppContext();
+  const {
+    cart,
+    products,
+    subTotal,
+    SHIPPING_COST,
+    DISCOUNT,
+    SALES_TAXES_PERCENT,
+    salesTaxesValue,
+    total,
+  } = useAppContext();
   const { dispatch } = useAppContext();
   const handleAddUnitToCart = (id) => {
     dispatch({
@@ -22,6 +31,14 @@ const Cart = () => {
     <Redirect to="/shoping_cart" />;
   };
 
+  const handleRemoveFromCart = (id) => {
+    dispatch({
+      type: "REMOVE_FROM_CART",
+      payload: id,
+    });
+    <Redirect to="/shoping_cart" />;
+  };
+
   return (
     <div>
       <Header />
@@ -30,7 +47,7 @@ const Cart = () => {
           <div className="w-full overflow-x-auto">
             <div className="my-2">
               <h3 className="text-xl font-bold tracking-wider">
-                Shopping Cart {cart.length} item
+                Shopping Cart {cart?.length > 0 ? cart.length : 0} item
               </h3>
             </div>
             <table className="w-full shadow-inner">
@@ -48,13 +65,10 @@ const Cart = () => {
                   <th className="px-2 sm:px-2 py-3 font-bold whitespace-nowrap">
                     Price
                   </th>
-                  <th className="px-2 sm:px-2 py-3 font-bold whitespace-nowrap">
-                    Remove
-                  </th>
                 </tr>
               </thead>
               <tbody>
-                {cart.map(
+                {cart?.map(
                   (product, i) =>
                     product?.img && (
                       <tr className="hover:bg-gray" key={product.id}>
@@ -77,30 +91,54 @@ const Cart = () => {
                             <button
                               className="text-red"
                               onClick={() =>
-                                handleSubstractUnitToCart(product.id)
+                                product.qty > 0
+                                  ? handleSubstractUnitToCart(product.id)
+                                  : handleRemoveFromCart(product.id)
                               }
                             >
-                              <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="inline-flex w-6 h-6 text-red-600"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth="2"
-                                  d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
-                                />
-                              </svg>
+                              {product.qty > 0 ? (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="inline-flex w-6 h-6 text-red-600"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z"
+                                  />
+                                </svg>
+                              ) : (
+                                <svg
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  className="inline-flex w-6 h-6 text-red-400"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+                                  />
+                                </svg>
+                              )}
                             </button>
                             <label className="w-4 text-center mx-2">
                               {product.qty}
                             </label>
                             <button
                               className="text-green"
-                              onClick={() => handleAddUnitToCart(product.id)}
+                              onClick={() =>
+                                products.filter(
+                                  (prod) => prod.id === product.id
+                                )[0].stock > 0 &&
+                                handleAddUnitToCart(product.id)
+                              }
                             >
                               <svg
                                 xmlns="http://www.w3.org/2000/svg"
@@ -122,24 +160,6 @@ const Cart = () => {
                         <td className="p-4 px-2 text-center whitespace-nowrap">
                           ${product.price}
                         </td>
-                        <td className="p-4 px-2 text-center whitespace-nowrap">
-                          <button className="text-red">
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              className="w-6 h-6 text-red-400"
-                              fill="none"
-                              viewBox="0 0 24 24"
-                              stroke="currentColor"
-                            >
-                              <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
-                              />
-                            </svg>
-                          </button>
-                        </td>
                       </tr>
                     )
                 )}
@@ -151,19 +171,39 @@ const Cart = () => {
                 <h3 className="text-xl font-bold text-purple">Order Summary</h3>
                 <div className="flex justify-between px-4">
                   <span className="font-bold">Subotal Price:</span>
-                  <span className="font-bold">$35.25</span>
+                  <span className="font-bold">${subTotal}</span>
                 </div>
                 <div className="flex justify-between px-4">
-                  <span className="font-bold">Shipping Cost (+):</span>
-                  <span className="font-bold">$12</span>
+                  <span className="font-bold text-orange">
+                    Shipping Cost (+):
+                  </span>
+                  <span
+                    className={
+                      subTotal > 0
+                        ? "font-bold text-orange"
+                        : "font-bold line-through text-orange"
+                    }
+                  >
+                    ${SHIPPING_COST}
+                  </span>
                 </div>
-                <div className="flex justify-between px-4">
+                <div className="flex justify-between px-4 text-green">
                   <span className="font-bold">Discount (-):</span>
-                  <span className="font-bold text-red-600">- $5.00</span>
+                  <span
+                    className={
+                      subTotal > 0
+                        ? "font-bold text-green"
+                        : "font-bold line-through text-green"
+                    }
+                  >
+                    - ${DISCOUNT}
+                  </span>
                 </div>
                 <div className="flex justify-between px-4">
-                  <span className="font-bold">Sales Tax (18%):</span>
-                  <span className="font-bold">$2.25</span>
+                  <span className="font-bold">
+                    Sales Tax ({SALES_TAXES_PERCENT}%):
+                  </span>
+                  <span className="font-bold">${salesTaxesValue}</span>
                 </div>
                 <div
                   className="
@@ -178,7 +218,9 @@ const Cart = () => {
               "
                 >
                   <span className="text-xl font-bold">Total Payable:</span>
-                  <span className="text-2xl font-bold ">$37.50</span>
+                  <span className="text-2xl font-bold ">
+                    ${subTotal > 0 ? total : 0}
+                  </span>
                 </div>
               </div>
             </div>

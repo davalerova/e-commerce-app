@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useAppContext } from "../AppProvider";
 
 function Header() {
-  const { total } = useAppContext();
+  const { subTotal, total } = useAppContext();
 
   return (
     <div className="flex fixed w-full justify-between bg-main px-5 py-2 text-white">
@@ -14,7 +14,7 @@ function Header() {
           <HiOutlineShoppingBag />
         </Link>
       </div>
-      <div>$ {total}</div>
+      <div>$ {subTotal > 0 ? total : 0}</div>
       <div className="cursor-pointer">
         <Link to="/shop-cart">
           <BiCart />
