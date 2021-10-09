@@ -21,7 +21,7 @@ const initialState = {
       detail: "Reference 1004",
       price: 399,
       img: "https://lh3.googleusercontent.com/TnLArABDMYYaXiKJquH_oIq63KOI0sJHw1bv0b71Xtk6eUwn-P8ZXde8gpD1c1KhfuRXge96fXNeslfYp_Vlxe5xbEhS7ybfiIUYiTvywEqTNkaWMaH4VDZNbEgnr84CMqEyQihUhV-CZQ0myg3S1BxQkt6ijUBx4L70HfzxBLtYtDX46RC_9z_LjRPVe5GenqbvCasnmrAjncVHCTDqsWURyXwpEjQ6Wov_9QmeDbF36nd7zdIw4XGvBVz27jy5gMmJoFhEvgZwG5XZfIArSyZkOYph3KQVOpLXJ5aqrFXfpGJ5tydLgFANwmXgVyzfghUmQATRau5uQKItEe2ek1XS8Ifa5YATS74A9WjAfChbxL7f7YnSwdylVFQ1Ox3-2PcxJ71r46IRE5mIpLfKydnQSEotzgP705GHHOUD_C3DbmDhH5YTkx59mZdIyF5-qowRV2IvaJMbFAJaIXF41aM6mh2nKezxPOy39xpt9-wm6Xli0JenukdptvBBG383HZtJIjj1YYe5gpsYVIsNRQTBVu5WbwA1fiXdVNsetV49S8YQQyBtkf15romr8Phhe1ouy8EChoLtIPSUqdCUQlIcg3L1ax6_SMfoq2DHB-FKi3UW-N7c9qQEGrPZ2Yb-lbxvWPWrZFhc-m8mJcgFSz5fORuHbfayGIOY6N5O3KoKS1BMHGseS1gM57He3-czqEIuivM0p1hWAGWJ5Q54aoCwOA=s450-no?authuser=0",
-      stock: 0,
+      stock: 1,
     },
     {
       id: 3,
