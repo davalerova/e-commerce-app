@@ -40,8 +40,8 @@ function Products() {
               }
               className={
                 product.stock > 0
-                  ? "bg-main rounded font-bold text-white"
-                  : "bg-main rounded font-bold text-white opacity-50 cursor-not-allowed"
+                  ? "bg-main rounded font-bold text-white p-2 w-full"
+                  : "bg-main rounded font-bold text-white opacity-50 cursor-not-allowed p-2 w-full"
               }
             >
               Add to cart
